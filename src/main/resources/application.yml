@@ -1,0 +1,19 @@
+server:
+  #设置端口号
+  port: 8081 #默认端口是8080
+  servlet:
+    encoding:
+      force-request: true
+      force-response: true
+      charset: UTF-8
+
+spring:
+  web:
+    resources:
+      static-locations: classpath:/templates/
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+logging:
+  level:
+    root: INFO
+    com.example.mypackage: DEBUG

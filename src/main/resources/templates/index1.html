@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Z-HE Search</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+    <style>
+        /* Main styles */
+        body {
+            background-image: url(./img/1.png);
+            display: flex;
+            align-items: center;
+            background-size: cover;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 100px 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: white;
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Search form styles */
+        form {
+            display: inline-block;
+            margin-top: 50px;
+        }
+
+        input[type="text"] {
+            width: 500px;
+            height: 50px;
+            border: none;
+            border-radius: 25px;
+            padding: 0 20px;
+            font-size: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        input[type="submit"] {
+            width: 100px;
+            height: 50px;
+            background-color: #0078d7;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            margin-left: 20px;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            outline: none;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #005ea2;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Z-HE Search</h1>
+    <form>
+        <input type="text" placeholder="Search">
+        <input type="submit" value="Search">
+    </form>
+</div>
+</body>
+</html>

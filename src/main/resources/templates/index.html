@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Z-HE Search</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        body {
+            background-image: url(img/1.png);
+            background-size: cover;
+            font-family: 'Roboto', sans-serif;
+            background-repeat: repeat;
+            background-attachment: fixed;
+    }
+
+    #header {
+        height: 80px;
+        background-color: #0078d7;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+    }
+
+    #logo {
+        margin-right: 20px;
+    }
+
+    #search-box {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        height: 40px;
+        width: 700px;
+        margin: 20px auto;
+        border-radius: 20px;
+        padding: 5px 10px;
+    }
+
+    #search-box input[type="text"] {
+        border: none;
+        outline: none;
+        font-size: 16px;
+        width: 100%;
+        padding: 5px;
+    }
+
+    #search-box button {
+        border: none;
+        outline: none;
+        background-color: rgba(0, 120, 215, 0.99);
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 20px;
+        margin-left: 10px;
+        cursor: pointer;
+    }
+
+    #body {
+        height: 600px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    #footer {
+        height: 50px;
+        background-color: #ffffff;
+        color: #333;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }    </style>
+</head>
+<body>
+<div id="header">
+    <h1>Z-HE Search</h1></div>
+<div id="search-box"><input id="searchtext" type="text" placeholder="Enter your search term...">
+    <button onclick="sendFlag()">Search</button>
+</div>
+<div id="body">
+</div>
+<div id="footer"> &copy; Z-HE Search</div>
+</body>
+<script>
+    function sendFlag() {
+        // 获取文本框里的内容
+        var text = document.getElementById("searchtext").value;
+        const axiosInstance = axios.create({
+            baseURL: 'http://localhost:8081',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        });
+        const data = new URLSearchParams();
+        data.append('flag', text);
+        console.log("flag = "+ text);
+        axiosInstance.post('/search', data)
+            .then((response) => {
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+</script>
+</html>

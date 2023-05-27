@@ -1,0 +1,107 @@
+<template>
+    <div class="search-container">
+        <div class="search-bar"><img class="logo" src="./assets/bing-logo.png" alt="Bing Logo">
+            <div class="search-input"><input type="text" placeholder="输入搜索内容">
+                <button>搜索</button>
+            </div>
+        </div>
+        <div class="search-results"><h3>搜索结果</h3>
+            <ul>
+                <li v-for="(result, index) in results" :key="index"><a :href="result.link">{{ result.title }}</a>
+                    <p>{{ result.description }}</p></li>
+            </ul>
+        </div>
+    </div>
+</template>
+<script>export default {
+    data() {
+        return {
+            results: [{
+                title: '必应搜索',
+                description: '必应搜索引擎是微软中国官方网站，为您提供网页、图片、视频、学术、词典、翻译、地图等全球信息搜索服务。',
+                link: 'https://www.bing.com'
+            }, {
+                title: 'Vue.js',
+                description: 'Vue.js is a progressive framework for building user interfaces. It is designed to be incrementally adoptable, with the ability to scale between simple and complex applications.',
+                link: 'https://vuejs.org/'
+            }, {
+                title: 'JavaScript',
+                description: 'JavaScript is a high-level, interpreted programming language that conforms to the ECMAScript specification. It is a programming language that is characterized as dynamic, weakly typed, prototype-based and multi-paradigm.',
+                link: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript'
+            },]
+        }
+    }
+}</script>
+<style scoped>.search-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 50px 20px;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 50px;
+}
+
+.logo {
+    width: 100px;
+    height: 100px;
+    margin-right: 20px;
+}
+
+.search-input {
+    display: flex;
+    align-items: center;
+}
+
+input[type="text"] {
+    padding: 10px;
+    width: 500px;
+    font-size: 18px;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    margin-right: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #0078d7;
+    color: #fff;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0063ba;
+}
+
+.search-results {
+    margin-top: 50px;
+}
+
+h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    margin-bottom: 30px;
+}
+
+a {
+    font-size: 20px;
+    color: #0078d7;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}</style>
