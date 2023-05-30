@@ -10,8 +10,7 @@ import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+
 
 public class ElasticsearchExample {
     public static void main(String[] args) throws IOException {

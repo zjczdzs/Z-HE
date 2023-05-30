@@ -8,6 +8,6 @@ class HomeController {
 
     @GetMapping("/Z-HE")
     public String home() {
-        return "index1";
+        return "index";
     }
 }

@@ -1,4 +1,7 @@
 package com.serviceimpl;
 
-public class InfoServerImpl {
+import com.service.InfoService;
+
+public class InfoServerImpl extends InfoService {
+
 }
