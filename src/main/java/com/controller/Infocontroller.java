@@ -1,5 +1,6 @@
 package com.controller;
 
+import Utils.HdfsUtil;
 import Utils.SafeTextFileWriter;
 import com.Dao.Flag;
 import com.service.InfoService;
@@ -27,7 +28,6 @@ public class Infocontroller {
     @PostMapping(value = "/search", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public Flag SearchFlag(@RequestParam String flag, HttpServletRequest request){
         Flag writertolog = new Flag();
-//        System.out.println(flag);
         // 获取系统时间
         LocalDateTime datetime = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -38,15 +38,14 @@ public class Infocontroller {
         writertolog.setDate(formattedDatetime);
         writertolog.setIp(clientIp);
         writertolog.setInformation(flag);
-
         try {
-            SafeTextFileWriter writer = new SafeTextFileWriter("D:\\javahomework\\Z-HE\\src\\main\\java\\com\\log\\searchlog");
-            writer.write(writertolog +"\n");
-            writer.close();
+            HdfsUtil hdfsUtil = new HdfsUtil();
+            hdfsUtil.init();
+            System.out.println(writertolog);
+            hdfsUtil.writeFile("/WebLog/searchlog.txt",writertolog.toString());
         } catch (IOException e) {
-            System.out.println("发生异常：" + e.getMessage());
+            System.out.println("日志写入hdfs发生异常：" + e.getMessage());
         }
-
         return writertolog;
     }
 

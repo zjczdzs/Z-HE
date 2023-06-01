@@ -34,10 +34,9 @@ public class Flag {
 
     @Override
     public String toString() {
-        return "Flag{" +
+        return
                 "information='" + information + '\'' +
                 ", date='" + date + '\'' +
-                ", ip='" + ip + '\'' +
-                '}';
+                ", ip='" + ip + '\'' ;
     }
 }
