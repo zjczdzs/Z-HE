@@ -27,13 +27,13 @@ public class Infocontroller {
     @PostMapping(value = "/search", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public Flag SearchFlag(@RequestParam String flag, HttpServletRequest request){
         Flag writertolog = new Flag();
+
         // 获取系统时间
         LocalDateTime datetime = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String formattedDatetime = datetime.format(formatter);
         // 获取客户端ip地址
         String clientIp = request.getRemoteAddr();
-
         writertolog.setDate(formattedDatetime);
         writertolog.setIp(clientIp);
         writertolog.setInformation(flag);
@@ -45,6 +45,9 @@ public class Infocontroller {
         } catch (IOException e) {
             System.out.println("日志写入hdfs发生异常：" + e.getMessage());
         }
+
+
+
         return writertolog;
     }
 
