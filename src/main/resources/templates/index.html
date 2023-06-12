@@ -226,7 +226,7 @@
                 </div>
             </div>
             <div v-else>
-                <div class="container" v-for="result in results" :key="index" >
+                <div class="container" v-if="results != null">
                     <h1>{{ result.title }}</h1>
                     <p><strong>作者:</strong> {{ result.author }}</p>
                     <p>{{ result.content }}</p>
@@ -245,7 +245,7 @@
                 currentPage: 1, // 当前页码
                 pageSize: 5, // 每页显示的数据数量
                 res: [], // 推荐结果数据
-                results: [] // 新闻具体信息数据
+                result: {} // 新闻具体信息数据
             };
         },
         computed: {
@@ -270,8 +270,9 @@
                 });
                 const data = new URLSearchParams();
                 data.append('flag', text);
-                axiosInstance.post('/search', data)
+                axiosInstance.post('/ESsearch', data)
                     .then((response) => {
+                        this.infos = response.data;
                         console.log(response.data);
                         // document.location.href="http://localhost:8081/no.html";
                     })
@@ -293,6 +294,15 @@
                 const data = new URLSearchParams();
                 data.append('id', id);
                 this.infos = [];
+                axiosInstance.post('/HBsearch', data)
+                    .then((response) => {
+                        this.result = response.data;
+                        console.log(response.data);
+                        // document.location.href="http://localhost:8081/no.html";
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
                 // axiosInstance.post('/Hbase', data)
                 //     .then((response) => {
                 //         console.log(response.data);
@@ -305,81 +315,79 @@
         },
         mounted() {
             this.res = [
-                {
-                    id: 1,
-                    content: "xxx",
-                },
-                {
-                    id: 2,
-                    content: "xxx",
-                },
-                {
-                    id: 3,
-                    content: "xxx",
-                },
-                {
-                    id: 4,
-                    content: "xxx",
-                },
+                // {
+                //     id: 1,
+                //     content: "xxx",
+                // },
+                // {
+                //     id: 2,
+                //     content: "xxx",
+                // },
+                // {
+                //     id: 3,
+                //     content: "xxx",
+                // },
+                // {
+                //     id: 4,
+                //     content: "xxx",
+                // },
             ]
             // 在实际应用中，这里应该是从后端获取数据的代码
             this.infos = [
-                {
-                    id: 1,
-                    title: "Search Result Title 1",
-                    author: "Tom",
-                    description: "Search result description goes here 1.",
-                },
-                {
-                    id: 2,
-                    title: "Search Result Title 2",
-                    author: "Peter",
-                    description: "Search result description goes here 2.",
-                },
-                {
-                    id: 3,
-                    title: "Search Result Title 3",
-                    author: "Bob",
-                    description: "Search result description goes here 3.",
-                },
-                {
-                    id: 3,
-                    title: "Search Result Title 4",
-                    author: "Bob",
-                    description: "Search result description goes here 3.",
-                },
-                {
-                    id: 4,
-                    title: "Search Result Title 5",
-                    author: "joe",
-                    description: "Search result description goes here 3.",
-                },
-                {
-                    id: 5,
-                    title: "Search Result Title 6",
-                    author: "jerry",
-                    description: "Search result description goes here 3.",
-                },
+                // {
+                //     id: 1,
+                //     title: "Search Result Title 1",
+                //     author: "Tom",
+                //     description: "Search result description goes here 1.",
+                // },
+                // {
+                //     id: 2,
+                //     title: "Search Result Title 2",
+                //     author: "Peter",
+                //     description: "Search result description goes here 2.",
+                // },
+                // {
+                //     id: 3,
+                //     title: "Search Result Title 3",
+                //     author: "Bob",
+                //     description: "Search result description goes here 3.",
+                // },
+                // {
+                //     id: 3,
+                //     title: "Search Result Title 4",
+                //     author: "Bob",
+                //     description: "Search result description goes here 3.",
+                // },
+                // {
+                //     id: 4,
+                //     title: "Search Result Title 5",
+                //     author: "joe",
+                //     description: "Search result description goes here 3.",
+                // },
+                // {
+                //     id: 5,
+                //     title: "Search Result Title 6",
+                //     author: "jerry",
+                //     description: "Search result description goes here 3.",
+                // },
                 // ... 其他数据
             ];
-            this.results = [
-                {
-                    title: "狼街神探",
-                    author: "王子祥",
-                    content: "第一章：重生\n" +
-                        "在这个平凡的日子里，我突然意识到了自己的不同——我重生了。然而，与我想象中的人类世界不同，这次我变成了一只狗，置身于一个名为狼街的路上。我尝试适应这个全新的身份，并开始探索这个与众不同的世界。\n" +
-                        "第二章：初识狗伙伴\n" +
-                        "在狼街上，我邂逅了一位狗伙伴。他的名字叫做阿尔法，是一条聪明机智的警犬。我们很快成为了好朋友，并开始在这条街上结识其他的狗狗朋友。\n" +
-                        "第三章：神秘案件\n" +
-                        "一天，我们发现了一个神秘的案件。街区里的一家珠宝店失窃，失去了一颗价值连城的钻石。警方无法破案，于是阿尔法和我决定出手，帮助他们解开这个谜团。\n" +
-                        "第四章：线索寻找\n" +
-                        "我们开始着手调查案件。阿尔法利用他敏锐的嗅觉，我则利用自己作为人类的智慧，从各种线索中获取信息。经过一番努力，我们发现了一些可疑的蛛丝马迹，并开始跟踪调查。\n" +
-                        "第五章：真相大白\n" +
-                        "在一番艰苦的调查之后，我们终于发现了失窃珠宝的真凶——原来是一伙狡猾的犯罪团伙，他们利用了狗狗的身份，掩人耳目地进行了这起盗窃。我们成功地找回了失窃的钻石，并将犯罪团伙绳之以法。\n" +
-                        "第六章：英雄赞誉\n" +
-                        "在成功破案之后，阿尔法和我受到了警方和市民的表彰。我们从此成为了狼街上的神探，继续在这个世界上揭示更多的谜团。"
-                },
-            ]
+            this.result = {
+                    // title: "狼街神探",
+                    // author: "王子祥",
+                    // content: "第一章：重生\n" +
+                    //     "在这个平凡的日子里，我突然意识到了自己的不同——我重生了。然而，与我想象中的人类世界不同，这次我变成了一只狗，置身于一个名为狼街的路上。我尝试适应这个全新的身份，并开始探索这个与众不同的世界。\n" +
+                    //     "第二章：初识狗伙伴\n" +
+                    //     "在狼街上，我邂逅了一位狗伙伴。他的名字叫做阿尔法，是一条聪明机智的警犬。我们很快成为了好朋友，并开始在这条街上结识其他的狗狗朋友。\n" +
+                    //     "第三章：神秘案件\n" +
+                    //     "一天，我们发现了一个神秘的案件。街区里的一家珠宝店失窃，失去了一颗价值连城的钻石。警方无法破案，于是阿尔法和我决定出手，帮助他们解开这个谜团。\n" +
+                    //     "第四章：线索寻找\n" +
+                    //     "我们开始着手调查案件。阿尔法利用他敏锐的嗅觉，我则利用自己作为人类的智慧，从各种线索中获取信息。经过一番努力，我们发现了一些可疑的蛛丝马迹，并开始跟踪调查。\n" +
+                    //     "第五章：真相大白\n" +
+                    //     "在一番艰苦的调查之后，我们终于发现了失窃珠宝的真凶——原来是一伙狡猾的犯罪团伙，他们利用了狗狗的身份，掩人耳目地进行了这起盗窃。我们成功地找回了失窃的钻石，并将犯罪团伙绳之以法。\n" +
+                    //     "第六章：英雄赞誉\n" +
+                    //     "在成功破案之后，阿尔法和我受到了警方和市民的表彰。我们从此成为了狼街上的神探，继续在这个世界上揭示更多的谜团。"
+                }
         },
     });
 </script>

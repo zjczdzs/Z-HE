@@ -1,7 +1,7 @@
 package com.Dao;
 
 public class Info {
-    private Integer id;
+    private String id;
 
     private String title;
 
@@ -10,6 +10,16 @@ public class Info {
     private String content;
 
     private String author;
+
+    public Info(String id, String title, String author, String description) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.describe = description;
+    }
+
+    public Info() {
+    }
 
     @Override
     public String toString() {
@@ -22,11 +32,11 @@ public class Info {
                 '}';
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
