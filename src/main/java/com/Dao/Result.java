@@ -10,13 +10,6 @@ public class Result {
         return title;
     }
 
-//    public String getId() {
-//        return id;
-//    }
-//
-//    public String setId() {
-//        return id;
-//    }
 
     public void setTitle(String title) {
         this.title = title;

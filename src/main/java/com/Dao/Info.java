@@ -18,8 +18,7 @@ public class Info {
         this.describe = description;
     }
 
-    public Info() {
-    }
+
 
     @Override
     public String toString() {

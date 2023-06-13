@@ -27,7 +27,7 @@ import java.util.Map;
 
 
 public class EsUtil {
-    private void EsUtil(){}
+    private  EsUtil(){}
     private static RestHighLevelClient client;
     static{
         //获取RestClient连接
@@ -35,9 +35,9 @@ public class EsUtil {
         client = new RestHighLevelClient(
                 //这里的代码其实就是低级别客户端的代码
                 RestClient.builder(
-                                new HttpHost("bigdata01",9200,"http"),
-                                new HttpHost("bigdata02",9200,"http"),
-                                new HttpHost("bigdata03",9200,"http"))
+                                new HttpHost("192.168.80.128",9200,"http"),
+                                new HttpHost("192.168.80.128",9200,"http"),
+                                new HttpHost("192.168.80.128",9200,"http"))
                         .setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
                             @Override
                             public HttpAsyncClientBuilder customizeHttpClient(
@@ -118,7 +118,7 @@ public class EsUtil {
         highlightBuilder.preTags("<font color='red'>");
         highlightBuilder.postTags("</font>");
         searchSourceBuilder.highlighter(highlightBuilder);
-        searchSourceBuilder.sort("time", SortOrder.DESC);
+//        searchSourceBuilder.sort("time", SortOrder.DESC);
         searchSourceBuilder.size(10000); // 设置最大返回结果数
 
         //指定查询条件

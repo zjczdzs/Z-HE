@@ -51,11 +51,15 @@ public class Infocontroller {
             result.setTitle(map.get("title"));
             result.setAuthor(map.get("author"));
             result.setContent(map.get("content"));
+//            result.setTitle("test");
+//            result.setAuthor("Zhai");
+//            result.setContent("不久前，一名中年男子和一名年轻女子身着粉色“情侣装”，在成都太古里牵手逛街的视频在网络上疯传。最开始，这只是驻扎在太古里的摄影师常年“创作”的街拍作品之一，后来，网友扒出照片上两位主人公均供职于中石油，为上下级，并且二人还是婚外情关系。");
             //写入日志
             writetolog("Search"+map.get("title"),request);
         }catch (Exception e){
             logger.error("HBase数据查询异常："+e.getMessage());
         }
+        System.out.println(result);
         return result;
     }
 
