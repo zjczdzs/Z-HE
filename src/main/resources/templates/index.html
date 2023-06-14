@@ -77,6 +77,9 @@
             box-sizing: border-box;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
             border-radius: 5px;
+            height: 800px; /* 设置容器的高度为500px */
+            overflow-y: auto; /* 仅在垂直方向上添加滚动条 */
+            overflow-x: hidden; /* 在水平方向上隐藏滚动条 */
         }
 
         h1 {
@@ -109,7 +112,7 @@
             margin-bottom: 5px;
         }
 
-        .author {
+        .url {
             font-size: 14px;
             color: #006621;
             text-decoration: none;
@@ -117,7 +120,7 @@
             display: block;
         }
 
-        .describe {
+        .description {
             font-size: 16px;
             line-height: 1.5;
             margin-bottom: 10px;
@@ -205,8 +208,7 @@
         <h1>Z-HE Search</h1>
     </div>
     <div id="bigcontainer">
-        <div id="search-box">
-            <input id="searchtext" type="text" placeholder="Enter your search term...">
+        <div id="search-box"><input id="searchtext" type="text" placeholder="Enter your search term...">
             <button @click="sendFlag()">Search</button>
         </div>
         <div id="bigbody">
@@ -214,10 +216,12 @@
                 <div id="body">
                     <div class="container" v-if="infos.length > 0">
                         <div class="main-content">
-                            <h5  class="result">为您找到以下结果</h5>
+                            <h2  class="result">为您找到以下结果</h2>
                             <div class="result" v-for="info in paginatedResults" :key="info.id">
                                 <a @click="checkHbase(info.id)" class="title" v-html="info.title"></a>
-                                <a @click="checkHbase(info.id)" class="author" v-html="info.author"></a>
+                                <li>
+                                    <a @click="checkHbase(info.id)" class="author" v-html="info.author"></a>
+                                </li>
                                 <p @click="checkHbase(info.id)" class="describe" v-html="info.describe"></p>
                             </div>
                             <div class="pagination-container">
@@ -235,20 +239,22 @@
                             </div>
                         </div>
                         <div class="recommendation">
-                            <div class="recommendation-box">
+                            <div class="recommendation-box" >
                                 <h2>为您推荐</h2>
                                 <ul>
-                                    <div v-for="re in res">
-                                        <li>{{re.id}}.{{re.content}}</li>
+                                    <div v-for="(re,index) in res">
+                                        <li>
+                                            <div @click="checkHbase(re.id)" v-html="`${index + 1}. ${re.title}`"></div>
+                                        </li>
                                     </div>
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <div v-else>
-                        <div class="container" v-if="result">
+                        <div class="container" v-if="result!= null">
                             <h1>{{ result.title }}</h1>
-                            <p><strong>作者:</strong> {{ result.author }}</p>
+                            <p><strong>来源:</strong> {{ result.author }}</p>
                             <p>{{ result.content }}</p>
                         </div>
                     </div>
@@ -321,10 +327,25 @@
                     .then((response) => {
                         this.infos = response.data;
                         console.log(response.data);
+                        this.extractRecommendations();
+                        // document.location.href="http://localhost:8081/no.html";
                     })
                     .catch((error) => {
                         console.error(error);
                     });
+            },
+            extractRecommendations() {
+                // 计算每个存在高亮字段数据的所有高亮字数和，并与对应的标题一起存储
+                this.res = this.infos.map((info) => {
+                    const totalHighlightLength = info.highlight && Array.isArray(info.highlight)
+                        ? info.highlight.reduce((total, highlight) => total + highlight.length, 0)
+                        : 0;
+                    return { title: info.title, id: info.id,totalHighlightLength };
+                });
+                // 根据高亮字数和进行排序
+                this.res.sort((a, b) => b.totalHighlightLength - a.totalHighlightLength);
+                // 截取前四个结果的标题
+                this.res = this.res.slice(0, 4).map((item) => ({ title: item.title, id: item.id }));
             },
             changePage(pageNumber) {
                 this.currentPage = pageNumber;
@@ -343,7 +364,8 @@
                 axiosInstance.post('/HBsearch', data)
                     .then((response) => {
                         this.result = response.data;
-                        console.log(result);
+                        console.log(response.data);
+                        // document.location.href="http://localhost:8081/no.html";
                     })
                     .catch((error) => {
                         console.error(error);
@@ -351,80 +373,10 @@
             }
         },
         mounted() {
-            this.res = [
-                // {
-                //     id: 1,
-                //     content: "xxx",
-                // },
-                // {
-                //     id: 2,
-                //     content: "xxx",
-                // },
-                // {
-                //     id: 3,
-                //     content: "xxx",
-                // },
-                // {
-                //     id: 4,
-                //     content: "xxx",
-                // },
-            ]
+            this.res = []
             // 在实际应用中，这里应该是从后端获取数据的代码
-            this.infos = [
-                // {
-                //     id: 1,
-                //     title: "Search Result Title 1",
-                //     author: "Tom",
-                //     describe: "Search result description goes here 1.Search result description goes here 1Search result description goes here 1Search result description goes here 1Search result description goes here 1Search result description goes here 1Search result description goes here 1Search result description goes here 1Search result description goes here 1Search result description goes here 1Search result description goes here 1Search result description goes here 1Search result description goes here 1Search result description goes here 1Search result description goes here 1Search result description goes here 1Search result description goes here 1Search result description goes here 1Search result description goes here 1",
-                // },
-                // {
-                //     id: 2,
-                //     title: "Search Result Title 2",
-                //     author: "Peter",
-                //     describe: "Search result description goes here 2.",
-                // },
-                // {
-                //     id: 3,
-                //     title: "Search Result Title 3",
-                //     author: "Bob",
-                //     describe: "Search result description goes here 3.",
-                // },
-                // {
-                //     id: 3,
-                //     title: "Search Result Title 4",
-                //     author: "Bob",
-                //     describe: "Search result description goes here 3.",
-                // },
-                // {
-                //     id: 4,
-                //     title: "Search Result Title 5",
-                //     author: "joe",
-                //     describe: "Search result description goes here 3.",
-                // },
-                // {
-                //     id: 5,
-                //     title: "Search Result Title 6",
-                //     author: "jerry",
-                //     describe: "Search result description goes here 3.",
-                // },
-                // ... 其他数据
-            ];
-            // this.result = {
-            //         title: "狼街神探",
-            //         author: "王子祥",
-            //         content: "第一章：重生\n" +
-            //             "在这个平凡的日子里，我突然意识到了自己的不同——我重生了。然而，与我想象中的人类世界不同，这次我变成了一只狗，置身于一个名为狼街的路上。我尝试适应这个全新的身份，并开始探索这个与众不同的世界。\n" +
-            //             "第二章：初识狗伙伴\n" +
-            //             "在狼街上，我邂逅了一位狗伙伴。他的名字叫做阿尔法，是一条聪明机智的警犬。我们很快成为了好朋友，并开始在这条街上结识其他的狗狗朋友。\n" +
-            //             "第三章：神秘案件\n" +
-            //             "一天，我们发现了一个神秘的案件。街区里的一家珠宝店失窃，失去了一颗价值连城的钻石。警方无法破案，于是阿尔法和我决定出手，帮助他们解开这个谜团。\n" +
-            //             "第四章：线索寻找\n" +
-            //             "我们开始着手调查案件。阿尔法利用他敏锐的嗅觉，我则利用自己作为人类的智慧，从各种线索中获取信息。经过一番努力，我们发现了一些可疑的蛛丝马迹，并开始跟踪调查。\n" +
-            //             "第五章：真相大白\n" +
-            //             "在一番艰苦的调查之后，我们终于发现了失窃珠宝的真凶——原来是一伙狡猾的犯罪团伙，他们利用了狗狗的身份，掩人耳目地进行了这起盗窃。我们成功地找回了失窃的钻石，并将犯罪团伙绳之以法。\n" +
-            //             "第六章：英雄赞誉\n" +
-            //             "在成功破案之后，阿尔法和我受到了警方和市民的表彰。我们从此成为了狼街上的神探，继续在这个世界上揭示更多的谜团。"
-            //     }
+            this.infos = [];
+            // this.result = {}
         },
     });
 </script>
